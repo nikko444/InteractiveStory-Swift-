@@ -12,6 +12,9 @@
 		8A204F9F203BA88B008D180A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A204F9D203BA88B008D180A /* Main.storyboard */; };
 		8A204FA1203BA88B008D180A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8A204FA0203BA88B008D180A /* Assets.xcassets */; };
 		8A204FA4203BA88B008D180A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8A204FA2203BA88B008D180A /* LaunchScreen.storyboard */; };
+		8AA415A6204389CC0024C32C /* Story.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA415A5204389CC0024C32C /* Story.swift */; };
+		8AA415A8204392550024C32C /* Page.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA415A7204392550024C32C /* Page.swift */; };
+		8AA415AA2044E41B0024C32C /* PageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AA415A92044E41B0024C32C /* PageController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +25,9 @@
 		8A204FA0203BA88B008D180A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8A204FA3203BA88B008D180A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8A204FA5203BA88B008D180A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8AA415A5204389CC0024C32C /* Story.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Story.swift; sourceTree = "<group>"; };
+		8AA415A7204392550024C32C /* Page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Page.swift; sourceTree = "<group>"; };
+		8AA415A92044E41B0024C32C /* PageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +62,9 @@
 			children = (
 				8A204F99203BA88B008D180A /* AppDelegate.swift */,
 				8A204F9B203BA88B008D180A /* ViewController.swift */,
+				8AA415A5204389CC0024C32C /* Story.swift */,
+				8AA415A7204392550024C32C /* Page.swift */,
+				8AA415A92044E41B0024C32C /* PageController.swift */,
 				8A204F9D203BA88B008D180A /* Main.storyboard */,
 				8A204FA0203BA88B008D180A /* Assets.xcassets */,
 				8A204FA2203BA88B008D180A /* LaunchScreen.storyboard */,
@@ -138,6 +147,9 @@
 			files = (
 				8A204F9C203BA88B008D180A /* ViewController.swift in Sources */,
 				8A204F9A203BA88B008D180A /* AppDelegate.swift in Sources */,
+				8AA415A8204392550024C32C /* Page.swift in Sources */,
+				8AA415A6204389CC0024C32C /* Story.swift in Sources */,
+				8AA415AA2044E41B0024C32C /* PageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
