@@ -8,14 +8,73 @@
 
 import UIKit
 
+extension NSAttributedString {
+    var stringRange: NSRange {
+        return NSMakeRange(0, self.length)
+    }
+}
+
+extension Story {
+    var attributedText: NSAttributedString{
+        let attributedString = NSMutableAttributedString(string: text)
+        
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 10
+        
+        attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: attributedString.stringRange)
+        
+        return attributedString
+    }
+}
+
+extension Page {
+    func story(attributed: Bool) -> NSAttributedString {
+        if attributed {
+            return story.attributedText
+        } else {
+            return NSAttributedString(string: story.text)
+        }
+    }
+}
+
 class PageController: UIViewController {
     var page: Page?
     
     //MARK: User Interface Properties
-    let artworkView = UIImageView()
-    let storyLabel = UILabel()
-    let firstChoiceButton = UIButton(type: .system)
-    let secondChoiceButton = UIButton(type: .system)
+    lazy var artworkView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = self.page?.story.artwork
+        return imageView
+    }()
+    
+    lazy var storyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.attributedText = self.page?.story(attributed: true)
+        return label
+    }()
+    
+    
+    lazy var firstChoiceButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        
+        let title = self.page?.firstChoice?.title ?? "Play Again" // it is taking optional on the left of ?? and assigns it to the let property in case the optional is != nil, otherwise assigns a non-optional to the right of it.
+        let selector = self.page?.firstChoice != nil ? #selector(PageController.loadFirstChoice) : #selector(PageController.playAgain) // it is checking if "self.page?.firstChoice" is not nil, it assigns the "#selector(PageController.loadFirstChoice)", otherwise it assigns "#selector(PageController.playAgain)"
+        button.setTitle(title, for: .normal)
+        button.addTarget(self, action: selector, for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var secondChoiceButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(self.page?.secondChoice?.title, for: .normal)
+        button.addTarget(self, action: #selector(PageController.loadSecondChoice), for: .touchUpInside)
+        return button
+    }()
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -28,34 +87,7 @@ class PageController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
-        
-        if let page = page {
-            artworkView.image = page.story.artwork
-            
-            let attributedString = NSMutableAttributedString(string: page.story.text)
-            
-            let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.lineSpacing = 10
-            
-            attributedString.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, attributedString.length))
-            
-            storyLabel.attributedText = attributedString
-            
-            if let firstChoice = page.firstChoice {
-                firstChoiceButton.setTitle(firstChoice.title, for: .normal)
-                firstChoiceButton.addTarget(self, action: #selector(PageController.loadFirstChoice), for: .touchUpInside)
-            } else {
-                firstChoiceButton.setTitle("Play Again", for: .normal)
-                firstChoiceButton.addTarget(self, action: #selector(PageController.playAgain), for: .touchUpInside)
-            }
-            
-            if let secondChoice = page.secondChoice {
-                secondChoiceButton.setTitle(secondChoice.title, for: .normal)
-                secondChoiceButton.addTarget(self, action: #selector(PageController.loadSecondChoice), for: .touchUpInside)
-            }
-        }
 
     }
 
@@ -67,7 +99,6 @@ class PageController: UIViewController {
     override func viewWillLayoutSubviews() {
         super .viewWillLayoutSubviews()
         view.addSubview(artworkView)
-        artworkView.translatesAutoresizingMaskIntoConstraints = false
         // artworkView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true // ONE WAY OF DOING THE SAME THING AS BELOW
         NSLayoutConstraint.activate([
             artworkView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -77,15 +108,12 @@ class PageController: UIViewController {
             ])
         
         view.addSubview(storyLabel)
-        storyLabel.translatesAutoresizingMaskIntoConstraints = false
-        storyLabel.numberOfLines = 0
         NSLayoutConstraint.activate([
             storyLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16.0),
             storyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16.0),
             storyLabel.topAnchor.constraint(equalTo: view.centerYAnchor, constant: -48.0)
             ])
         view.addSubview(firstChoiceButton)
-        firstChoiceButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             firstChoiceButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -93,7 +121,6 @@ class PageController: UIViewController {
             ])
         
         view.addSubview(secondChoiceButton)
-        secondChoiceButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             secondChoiceButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
